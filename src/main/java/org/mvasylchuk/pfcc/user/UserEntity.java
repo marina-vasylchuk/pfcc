@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mvasylchuk.pfcc.common.jpa.Pfcc;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
@@ -40,4 +42,6 @@ public class UserEntity {
     private Boolean profileConfigured;
     @Column(name = "email_confirmed")
     private Boolean emailConfirmed;
+
+
 }
