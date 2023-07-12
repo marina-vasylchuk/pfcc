@@ -41,6 +41,9 @@ class UserServiceIntegrationTest {
                 new BigDecimal(50), new BigDecimal(30), new BigDecimal(550))));
         UserEntity user = userRepository.getByEmail("email");
         org.assertj.core.api.Assertions.assertThat(user.getAims().getProtein()).isEqualByComparingTo("10");
+        org.assertj.core.api.Assertions.assertThat(user.getAims().getCarbohydrates()).isEqualByComparingTo("30");
+        org.assertj.core.api.Assertions.assertThat(user.getAims().getFat()).isEqualByComparingTo("50");
+        org.assertj.core.api.Assertions.assertThat(user.getAims().getCalories()).isEqualByComparingTo("550");
 
     }
 }
