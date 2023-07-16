@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mvasylchuk.pfcc.common.dto.PfccDto;
 import org.mvasylchuk.pfcc.common.jpa.Pfcc;
 import org.mvasylchuk.pfcc.platform.email.EmailService;
+import org.mvasylchuk.pfcc.platform.jwt.JwtService;
 import org.mvasylchuk.pfcc.user.dto.AccessTokenDto;
 import org.mvasylchuk.pfcc.user.dto.CompleteProfileRequestDto;
 import org.mvasylchuk.pfcc.user.dto.RegisterRequestDto;
@@ -28,7 +29,7 @@ class UserServiceTest {
     @Mock
     private EmailService emailService;
     @Mock
-    private TokenService tokenService;
+    private JwtService jwtService;
     @Mock
     private PasswordEncoder passwordEncoder;
 
@@ -37,7 +38,7 @@ class UserServiceTest {
         Mockito.when(passwordEncoder.encode(any())).thenReturn("pass");
         Mockito.when(userRepository.save(any())).thenReturn(null);
         Mockito.doNothing().when(emailService).sendEmail(any(), any());
-        Mockito.when(tokenService.generateToken(any())).thenReturn("token");
+        Mockito.when(jwtService.generateToken(any())).thenReturn("token");
 
         AccessTokenDto result = underTest.register(new RegisterRequestDto("email", "password"));
 

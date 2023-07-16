@@ -44,6 +44,5 @@ class UserServiceIntegrationTest {
         org.assertj.core.api.Assertions.assertThat(user.getAims().getCarbohydrates()).isEqualByComparingTo("30");
         org.assertj.core.api.Assertions.assertThat(user.getAims().getFat()).isEqualByComparingTo("50");
         org.assertj.core.api.Assertions.assertThat(user.getAims().getCalories()).isEqualByComparingTo("550");
-
     }
 }
