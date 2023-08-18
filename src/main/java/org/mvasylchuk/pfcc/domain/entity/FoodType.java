@@ -1,4 +1,4 @@
-package org.mvasylchuk.pfcc.domain;
+package org.mvasylchuk.pfcc.domain.entity;
 
 public enum FoodType {
     RECIPE,

@@ -44,9 +44,11 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<DishRecord, FoodRecord> DISH_IBFK_1 = Internal.createForeignKey(Dish.DISH, DSL.name("dish_ibfk_1"), new TableField[] { Dish.DISH.FOOD_ID }, Keys.KEY_FOOD_PRIMARY, new TableField[] { Food.FOOD.ID }, true);
+    public static final ForeignKey<DishRecord, UsersRecord> DISH_IBFK_2 = Internal.createForeignKey(Dish.DISH, DSL.name("dish_ibfk_2"), new TableField[] { Dish.DISH.OWNER_ID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.ID }, true);
     public static final ForeignKey<FoodRecord, UsersRecord> FOOD_IBFK_1 = Internal.createForeignKey(Food.FOOD, DSL.name("food_ibfk_1"), new TableField[] { Food.FOOD.OWNER_ID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.ID }, true);
     public static final ForeignKey<IngredientsRecord, FoodRecord> INGREDIENTS_IBFK_1 = Internal.createForeignKey(Ingredients.INGREDIENTS, DSL.name("ingredients_ibfk_1"), new TableField[] { Ingredients.INGREDIENTS.RECIPE_ID }, Keys.KEY_FOOD_PRIMARY, new TableField[] { Food.FOOD.ID }, true);
     public static final ForeignKey<IngredientsRecord, FoodRecord> INGREDIENTS_IBFK_2 = Internal.createForeignKey(Ingredients.INGREDIENTS, DSL.name("ingredients_ibfk_2"), new TableField[] { Ingredients.INGREDIENTS.INGREDIENT_ID }, Keys.KEY_FOOD_PRIMARY, new TableField[] { Food.FOOD.ID }, true);
     public static final ForeignKey<MealRecord, FoodRecord> MEAL_IBFK_1 = Internal.createForeignKey(Meal.MEAL, DSL.name("meal_ibfk_1"), new TableField[] { Meal.MEAL.FOOD_ID }, Keys.KEY_FOOD_PRIMARY, new TableField[] { Food.FOOD.ID }, true);
     public static final ForeignKey<MealRecord, DishRecord> MEAL_IBFK_2 = Internal.createForeignKey(Meal.MEAL, DSL.name("meal_ibfk_2"), new TableField[] { Meal.MEAL.DISH_ID }, Keys.KEY_DISH_PRIMARY, new TableField[] { Dish.DISH.ID }, true);
+    public static final ForeignKey<MealRecord, UsersRecord> MEAL_IBFK_3 = Internal.createForeignKey(Meal.MEAL, DSL.name("meal_ibfk_3"), new TableField[] { Meal.MEAL.OWNER_ID }, Keys.KEY_USERS_PRIMARY, new TableField[] { Users.USERS.ID }, true);
 }

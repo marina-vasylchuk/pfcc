@@ -12,12 +12,12 @@ import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Function9;
+import org.jooq.Function10;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Records;
-import org.jooq.Row9;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.SelectField;
 import org.jooq.Table;
@@ -99,6 +99,11 @@ public class Meal extends TableImpl<MealRecord> {
      */
     public final TableField<MealRecord, LocalDateTime> EATEN_ON = createField(DSL.name("eaten_on"), SQLDataType.LOCALDATETIME(0).nullable(false).defaultValue(DSL.field(DSL.raw("current_timestamp()"), SQLDataType.LOCALDATETIME)), this, "");
 
+    /**
+     * The column <code>pfcc.meal.owner_id</code>.
+     */
+    public final TableField<MealRecord, Long> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.BIGINT)), this, "");
+
     private Meal(Name alias, Table<MealRecord> aliased) {
         this(alias, aliased, null);
     }
@@ -139,7 +144,7 @@ public class Meal extends TableImpl<MealRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.MEAL_DISH_ID, Indexes.MEAL_FOOD_ID);
+        return Arrays.asList(Indexes.MEAL_DISH_ID, Indexes.MEAL_FOOD_ID, Indexes.MEAL_OWNER_ID);
     }
 
     @Override
@@ -149,11 +154,12 @@ public class Meal extends TableImpl<MealRecord> {
 
     @Override
     public List<ForeignKey<MealRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.MEAL_IBFK_1, Keys.MEAL_IBFK_2);
+        return Arrays.asList(Keys.MEAL_IBFK_1, Keys.MEAL_IBFK_2, Keys.MEAL_IBFK_3);
     }
 
     private transient Food _food;
     private transient Dish _dish;
+    private transient Users _users;
 
     /**
      * Get the implicit join path to the <code>pfcc.food</code> table.
@@ -173,6 +179,16 @@ public class Meal extends TableImpl<MealRecord> {
             _dish = new Dish(this, Keys.MEAL_IBFK_2);
 
         return _dish;
+    }
+
+    /**
+     * Get the implicit join path to the <code>pfcc.users</code> table.
+     */
+    public Users users() {
+        if (_users == null)
+            _users = new Users(this, Keys.MEAL_IBFK_3);
+
+        return _users;
     }
 
     @Override
@@ -215,18 +231,18 @@ public class Meal extends TableImpl<MealRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<Long, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, Long, Long, LocalDateTime> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row10<Long, BigDecimal, BigDecimal, BigDecimal, BigDecimal, BigDecimal, Long, Long, LocalDateTime, Long> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    public <U> SelectField<U> mapping(Function9<? super Long, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super Long, ? super Long, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Function10<? super Long, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super Long, ? super Long, ? super LocalDateTime, ? super Long, ? extends U> from) {
         return convertFrom(Records.mapping(from));
     }
 
@@ -234,7 +250,7 @@ public class Meal extends TableImpl<MealRecord> {
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super Long, ? super Long, ? super LocalDateTime, ? extends U> from) {
+    public <U> SelectField<U> mapping(Class<U> toType, Function10<? super Long, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super BigDecimal, ? super Long, ? super Long, ? super LocalDateTime, ? super Long, ? extends U> from) {
         return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -1,24 +1,23 @@
-package org.mvasylchuk.pfcc.domain;
+package org.mvasylchuk.pfcc.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.mvasylchuk.pfcc.user.UserEntity;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "food")
-public class FoodEntity {
-    private static final String ID_GENERATOR_NAME = "food_id_gen";
-    private static final String ID_SEQ_NAME = "food_id_seq";
+@Table(name = "dish")
+public class DishEntity {
+    private static final String ID_GENERATOR_NAME = "dish_id_gen";
+    private static final String ID_SEQ_NAME = "dish_id_seq";
     @Id
     @GeneratedValue(generator = ID_GENERATOR_NAME)
     @SequenceGenerator(name = ID_GENERATOR_NAME, sequenceName = ID_SEQ_NAME)
@@ -28,9 +27,15 @@ public class FoodEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "type")
-    @Enumerated(value = EnumType.STRING)
-    private FoodType type;
+    @ManyToOne
+    @JoinColumn(name = "food_id")
+    private FoodEntity food;
+
+    @Column(name = "recipe_weight")
+    private BigDecimal recipeWeight;
+
+    @Column(name = "cooked_weight")
+    private BigDecimal cookedWeight;
 
     @Column(name = "protein")
     private BigDecimal protein;
@@ -40,19 +45,12 @@ public class FoodEntity {
     private BigDecimal carbohydrates;
     @Column(name = "calories")
     private BigDecimal calories;
-    @Column(name = "is_hidden")
-    private Boolean isHidden;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private UserEntity owner;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name = "cooked_on")
+    private LocalDateTime cookedOn;
 
     @Column(name = "deleted")
-    private Boolean isDeleted;
+    private Boolean deleted;
 
-    @OneToMany(mappedBy = "recipe")
-    Set<IngredientEntity> ingredients;
+
 }
