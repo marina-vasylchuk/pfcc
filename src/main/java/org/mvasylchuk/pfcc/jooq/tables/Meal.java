@@ -102,7 +102,7 @@ public class Meal extends TableImpl<MealRecord> {
     /**
      * The column <code>pfcc.meal.owner_id</code>.
      */
-    public final TableField<MealRecord, Long> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.BIGINT)), this, "");
+    public final TableField<MealRecord, Long> OWNER_ID = createField(DSL.name("owner_id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     private Meal(Name alias, Table<MealRecord> aliased) {
         this(alias, aliased, null);

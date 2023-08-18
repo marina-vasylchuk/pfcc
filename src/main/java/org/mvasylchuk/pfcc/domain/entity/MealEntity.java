@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.mvasylchuk.pfcc.common.jpa.Pfcc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,14 +27,15 @@ public class MealEntity {
 
     @Column(name = "weight")
     private BigDecimal weight;
-    @Column(name = "protein")
-    private BigDecimal protein;
-    @Column(name = "fat")
-    private BigDecimal fat;
-    @Column(name = "carbohydrates")
-    private BigDecimal carbohydrates;
-    @Column(name = "calories")
-    private BigDecimal calories;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "protein", column = @Column(name = "protein")),
+            @AttributeOverride(name = "fat", column = @Column(name = "fat")),
+            @AttributeOverride(name = "carbohydrates", column = @Column(name = "carbohydrates")),
+            @AttributeOverride(name = "calories", column = @Column(name = "calories"))
+    })
+    private Pfcc aims;
+
     @ManyToOne
     @JoinColumn(name = "food_id")
     private FoodEntity food;
