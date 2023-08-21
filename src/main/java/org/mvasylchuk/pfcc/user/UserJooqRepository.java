@@ -52,7 +52,10 @@ public class UserJooqRepository {
 
         LocalDateTime startOfTheWeek = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).withHour(0).withMinute(0).withSecond(0).withNano(0);
 
-        List<MealDto> mealList = ctx.select(MEAL.asterisk()).from(MEAL).join(USERS).on(MEAL.OWNER_ID.eq(USERS.ID)).where(USERS.EMAIL.eq(email).and(MEAL.EATEN_ON.greaterOrEqual(startOfTheWeek))).fetch(m -> {
+        List<MealDto> mealList = ctx.select(MEAL.asterisk()).from(MEAL).join(USERS).on(MEAL.OWNER_ID.eq(USERS.ID))
+                .where(USERS.EMAIL.eq(email)
+                        .and(MEAL.EATEN_ON.greaterOrEqual(startOfTheWeek))
+                ).fetch(m -> {
             MealDto result = new MealDto();
             result.setId(m.get(MEAL.ID));
             result.setEatenOn(m.get(MEAL.EATEN_ON));

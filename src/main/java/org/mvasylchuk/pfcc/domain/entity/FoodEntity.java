@@ -39,7 +39,7 @@ public class FoodEntity {
             @AttributeOverride(name = "carbohydrates", column = @Column(name = "carbohydrates",nullable = false)),
             @AttributeOverride(name = "calories", column = @Column(name = "calories",nullable = false))
     })
-    private Pfcc aims;
+    private Pfcc pfcc;
     @Column(name = "is_hidden")
     private Boolean isHidden;
 

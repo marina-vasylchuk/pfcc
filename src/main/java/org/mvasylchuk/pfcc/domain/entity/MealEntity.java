@@ -34,7 +34,7 @@ public class MealEntity {
             @AttributeOverride(name = "carbohydrates", column = @Column(name = "carbohydrates")),
             @AttributeOverride(name = "calories", column = @Column(name = "calories"))
     })
-    private Pfcc aims;
+    private Pfcc pfcc;
 
     @ManyToOne
     @JoinColumn(name = "food_id")
