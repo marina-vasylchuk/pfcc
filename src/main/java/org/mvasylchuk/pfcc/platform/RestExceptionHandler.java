@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.mvasylchuk.pfcc.platform.configuration.model.PfccAppConfigurationProperties;
 import org.mvasylchuk.pfcc.common.dto.BaseResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
