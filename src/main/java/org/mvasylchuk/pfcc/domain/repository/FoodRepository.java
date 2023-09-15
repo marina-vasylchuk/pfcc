@@ -1,5 +1,6 @@
 package org.mvasylchuk.pfcc.domain.repository;
 
+import org.mvasylchuk.pfcc.domain.dto.FoodDto;
 import org.mvasylchuk.pfcc.domain.entity.FoodEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
