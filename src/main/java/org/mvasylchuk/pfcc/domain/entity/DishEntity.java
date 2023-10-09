@@ -9,6 +9,7 @@ import org.mvasylchuk.pfcc.common.jpa.Pfcc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -51,6 +52,9 @@ public class DishEntity {
 
     @Column(name = "deleted")
     private Boolean deleted;
+
+    @OneToMany(mappedBy = "dish", cascade = {CascadeType.ALL})
+    List<DishIngredientEntity> ingredients;
 
 
 }

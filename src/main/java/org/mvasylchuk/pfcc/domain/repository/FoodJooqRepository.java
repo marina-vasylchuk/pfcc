@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.mvasylchuk.pfcc.common.dto.Page;
-import org.mvasylchuk.pfcc.common.jpa.Pfcc;
+import org.mvasylchuk.pfcc.common.dto.PfccDto;
 import org.mvasylchuk.pfcc.domain.dto.FoodDto;
 import org.mvasylchuk.pfcc.domain.entity.FoodType;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ public class FoodJooqRepository {
                     food.setId(dbFood.get(FOOD.ID));
                     food.setName(dbFood.get(FOOD.NAME));
                     food.setFoodType(FoodType.valueOf(dbFood.get(FOOD.TYPE)));
-                    food.setPfcc(new Pfcc(dbFood.get(FOOD.PROTEIN), dbFood.get(FOOD.FAT), dbFood.get(FOOD.CARBOHYDRATES), dbFood.get(FOOD.CALORIES)));
+                    food.setPfcc(new PfccDto(dbFood.get(FOOD.PROTEIN), dbFood.get(FOOD.FAT), dbFood.get(FOOD.CARBOHYDRATES), dbFood.get(FOOD.CALORIES)));
                     food.setDescription(dbFood.get(FOOD.DESCRIPTION));
                     food.setIsHidden(dbFood.get(FOOD.IS_HIDDEN, Boolean.class));
                     food.setOwnedByUser(Objects.equals(dbFood.get(FOOD.OWNER_ID), userId));
@@ -61,7 +61,7 @@ public class FoodJooqRepository {
                     food.setId(dbFood.get(FOOD.ID));
                     food.setName(dbFood.get(FOOD.NAME));
                     food.setFoodType(FoodType.valueOf(dbFood.get(FOOD.TYPE)));
-                    food.setPfcc(new Pfcc(dbFood.get(FOOD.PROTEIN), dbFood.get(FOOD.FAT), dbFood.get(FOOD.CARBOHYDRATES), dbFood.get(FOOD.CALORIES)));
+                    food.setPfcc(new PfccDto(dbFood.get(FOOD.PROTEIN), dbFood.get(FOOD.FAT), dbFood.get(FOOD.CARBOHYDRATES), dbFood.get(FOOD.CALORIES)));
                     food.setDescription(dbFood.get(FOOD.DESCRIPTION));
                     food.setIsHidden(dbFood.get(FOOD.IS_HIDDEN, Boolean.class));
                     food.setOwnedByUser(Objects.equals(dbFood.get(FOOD.OWNER_ID), userId));
