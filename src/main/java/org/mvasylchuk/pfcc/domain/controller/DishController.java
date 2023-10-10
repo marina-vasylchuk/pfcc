@@ -16,7 +16,7 @@ public class DishController {
     private final DishService dishService;
 
 
-    @PostMapping("/add")
+    @PostMapping("/")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<DishDto> add(@RequestBody DishRequest request) {
         return BaseResponse.success(dishService.addDish(request));
