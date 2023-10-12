@@ -21,11 +21,6 @@ public class MealJooqRepository {
     public Page<MealDto> getMealList(Integer page, Integer pageSize, LocalDateTime from, LocalDateTime to, Long userId) {
         Page<MealDto> result = new Page<>();
         result.setPage(page);
-        Integer totalElements = ctx.fetchCount(MEAL, MEAL.OWNER_ID.equal(userId)
-                .and(MEAL.EATEN_ON.between(from,to)));
-        result.setTotalElements(totalElements);
-        result.setPageSize(pageSize);
-        result.setTotalPages((totalElements / pageSize) + (totalElements % pageSize > 0 ? 1 : 0));
 
         Condition condition = MEAL.OWNER_ID.equal(userId);
         if (from != null) {
@@ -34,6 +29,12 @@ public class MealJooqRepository {
         if (to != null) {
             condition = condition.and(MEAL.EATEN_ON.lessOrEqual(to));
         }
+
+        Integer totalElements = ctx.fetchCount(MEAL, condition);
+
+        result.setTotalElements(totalElements);
+        result.setPageSize(pageSize);
+        result.setTotalPages((totalElements / pageSize) + (totalElements % pageSize > 0 ? 1 : 0));
         List<MealDto> meals = ctx.selectFrom(MEAL)
                 .where(condition)
                 .limit(pageSize)
