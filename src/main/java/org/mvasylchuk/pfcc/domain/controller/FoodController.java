@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class FoodController {
     private final FoodService foodService;
 
-    @PostMapping("/")
+    @PostMapping()
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<FoodDto> add(@RequestBody FoodDto request) {
         return BaseResponse.success(foodService.addFood(request));
@@ -25,11 +25,11 @@ public class FoodController {
         foodService.remove(id);
         return BaseResponse.success(null);
     }
-    @GetMapping("/")
+    @GetMapping()
     @PreAuthorize("isAuthenticated()")
-    public Page<FoodDto> get(@RequestParam(name = "page",required = false, defaultValue = "0") Integer page,
+    public BaseResponse<Page<FoodDto>> get(@RequestParam(name = "page",required = false, defaultValue = "0") Integer page,
                              @RequestParam(name = "pageSize",required = false,defaultValue = "10") Integer pageSize){
-        return foodService.getFoodList(page,pageSize);
+        return BaseResponse.success(foodService.getFoodList(page,pageSize));
     }
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
