@@ -12,7 +12,6 @@ import org.mvasylchuk.pfcc.user.UserEntity;
 import org.mvasylchuk.pfcc.user.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,18 +24,18 @@ public class FoodMappingService {
     @Transactional(rollbackOn = Exception.class)
     public FoodEntity toEntity(FoodDto foodDto) {
         FoodEntity result = new FoodEntity();
-        List<IngredientEntity> ingredientList = new ArrayList<>();
+        List<IngredientEntity> ingredientList;
 
         result.setId(foodDto.getId());
         result.setName(foodDto.getName());
-        result.setType(foodDto.getFoodType());
+        result.setType(foodDto.getType());
         result.setPfcc(pfccMappingService.toPfcc(foodDto.getPfcc()));
-        result.setIsHidden(foodDto.getIsHidden());
+        result.setIsHidden(foodDto.isHidden());
         result.setOwner(userService.currentUser());//todo: подумать
         result.setDescription(foodDto.getDescription());
         result.setIsDeleted(false);//todo: подумать
 
-        if (foodDto.getFoodType() == FoodType.RECIPE) {
+        if (foodDto.getType() == FoodType.RECIPE) {
             ingredientList = foodDto.getIngredients()
                     .stream()
                     .map(ingredientDto -> {
