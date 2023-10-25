@@ -28,16 +28,16 @@ public class MealMappingService {
     public MealEntity toEntity(MealDto mealDto) {
         MealEntity result = new MealEntity();
 
-        BigDecimal coef = mealDto.getWeight().divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+        BigDecimal coef = mealDto.getWeight().divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
         Pfcc pfcc;
 
         if (mealDto.getDishId() != null) {
             DishEntity dish = dishRepository.findById(mealDto.getDishId()).orElseThrow();
-            pfcc = dish.getPfcc().clone();
+            pfcc = dish.getPfcc();
 
         } else {
             FoodEntity food = foodRepository.findById(mealDto.getFoodId()).orElseThrow();
-            pfcc = food.getPfcc().clone();
+            pfcc = food.getPfcc();
 
         }
 
@@ -59,12 +59,11 @@ public class MealMappingService {
 
     @Transactional(rollbackOn = Exception.class)
     public MealDto toDto(MealEntity mealEntity) {
-
-        return new MealDto(mealEntity.getId(),
-                mealEntity.getEatenOn(),
-                mealEntity.getWeight(),
-                pfccMappingService.toPfccDto(mealEntity.getPfcc()),
-                mealEntity.getFood().getId(),
-                mealEntity.getDish().getId());
+            return new MealDto(mealEntity.getId(),
+                    mealEntity.getEatenOn(),
+                    mealEntity.getWeight(),
+                    pfccMappingService.toPfccDto(mealEntity.getPfcc()),
+                    mealEntity.getFood() != null ? mealEntity.getFood().getId() : null,
+                    mealEntity.getDish() != null ? mealEntity.getDish().getId() : null);
     }
 }
