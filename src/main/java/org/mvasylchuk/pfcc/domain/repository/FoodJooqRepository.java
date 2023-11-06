@@ -28,7 +28,8 @@ public class FoodJooqRepository {
         result.setPageSize(size);
 
         Condition condition = FOOD.OWNER_ID.equal(userId)
-                .or(FOOD.IS_HIDDEN.isFalse());
+                .or(FOOD.IS_HIDDEN.isFalse())
+                        .and(FOOD.DELETED.isFalse());
 
         if (name != null) {
             condition = condition.and(FOOD.NAME.like("%" + name + "%"));
@@ -68,8 +69,7 @@ public class FoodJooqRepository {
         FoodDto result = ctx.selectFrom(FOOD)
                 .where(FOOD.ID.equal(id)
                         .and(FOOD.OWNER_ID.equal(userId)
-                                .or(FOOD.IS_HIDDEN.isFalse())
-                                .and(FOOD.DELETED.isFalse())))
+                                .or(FOOD.IS_HIDDEN.isFalse())))
                 .fetchOne(dbFood -> {
                     FoodDto food = new FoodDto();
                     food.setId(dbFood.get(FOOD.ID));
