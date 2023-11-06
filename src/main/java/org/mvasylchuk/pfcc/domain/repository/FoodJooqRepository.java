@@ -26,7 +26,6 @@ public class FoodJooqRepository {
         Page<FoodDto> result = new Page<>();
         result.setPage(page);
         result.setPageSize(size);
-
         Condition condition = FOOD.OWNER_ID.equal(userId)
                 .or(FOOD.IS_HIDDEN.isFalse())
                         .and(FOOD.DELETED.isFalse());
