@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mvasylchuk.pfcc.platform.configuration.model.PfccAppConfigurationProperties;
 import org.mvasylchuk.pfcc.platform.email.EmailService;
 import org.mvasylchuk.pfcc.platform.jwt.JwtService;
 import org.mvasylchuk.pfcc.securitytoken.SecurityTokenService;
@@ -14,8 +15,12 @@ import org.mvasylchuk.pfcc.user.dto.AuthTokensDto;
 import org.mvasylchuk.pfcc.user.dto.RegisterRequestDto;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 import static org.mvasylchuk.pfcc.securitytoken.SecurityTokenType.EMAIL_VERIFICATION;
 import static org.mvasylchuk.pfcc.securitytoken.SecurityTokenType.REFRESH_TOKEN;
 
@@ -33,6 +38,8 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private SecurityTokenService securityTokenService;
+    @Mock
+    private PfccAppConfigurationProperties conf;
 
     @Test
     void register() {
@@ -40,16 +47,20 @@ class UserServiceTest {
         String refreshTokenCode = "REFRESH_TOKEN_CODE";
         String accessToken = "ACCESS_TOKEN";
 
-        Mockito.when(passwordEncoder.encode(any())).thenReturn("pass");
-        Mockito.when(userRepository.save(any())).thenReturn(null);
+        when(passwordEncoder.encode(any())).thenReturn("pass");
+        when(userRepository.save(any())).thenReturn(null);
         Mockito.doNothing()
                .when(emailService)
                .sendEmailVerificationMail(eq("email"), eq("name"), eq(validationTokenCode), eq(Language.UA));
-        Mockito.when(jwtService.generateToken(any())).thenReturn(accessToken);
-        Mockito.when(securityTokenService.generateSecurityToken(any(), eq(EMAIL_VERIFICATION)))
+        when(jwtService.generateToken(any())).thenReturn(accessToken);
+        when(securityTokenService.generateSecurityToken(any(), eq(EMAIL_VERIFICATION)))
                .thenReturn(validationTokenCode);
-        Mockito.when(securityTokenService.generateSecurityToken(any(), eq(REFRESH_TOKEN)))
+        when(securityTokenService.generateSecurityToken(any(), eq(REFRESH_TOKEN)))
                .thenReturn(refreshTokenCode);
+        PfccAppConfigurationProperties.PfccJwtConfiguration jwtConf = Mockito.mock(PfccAppConfigurationProperties.PfccJwtConfiguration.class);
+        when(jwtConf.authTokenExpiration).thenReturn(Duration.of(10, ChronoUnit.DAYS));
+        when(jwtConf.refreshTokenExpiration).thenReturn(Duration.of(30, ChronoUnit.DAYS));
+        when(conf.jwt).thenReturn(jwtConf);
 
         AuthTokensDto result = underTest.register(new RegisterRequestDto("email", "password", "name", Language.UA));
 
