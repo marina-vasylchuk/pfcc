@@ -61,4 +61,11 @@ Feature: Authentication
       | carbohydrates | 200  |
       | calories      | 2000 |
 
+  Scenario: Refresh auth using refreshToken
+    Given User 'alpha' is present
+    And I'm authenticated as 'alpha'
+    When I'm refreshing auth token
+    Then I should receive successful response
+    And response contain proper auth tokens for user 'alpha'
+
   # TODO: Implement GET Profile scenario

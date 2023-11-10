@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/refresh-auth-token")
-    public ResponseEntity<BaseResponse<AuthTokenResponseDto>> refreshAuthToken(@RequestBody RefreshAuthTokenRequestDto request) throws URISyntaxException {
+    public ResponseEntity<BaseResponse<AuthTokenResponseDto>> refreshAuthToken(@RequestBody @Valid RefreshAuthTokenRequestDto request) throws URISyntaxException {
         return buildAuthTokenResponse(userService.refreshAuth(request));
     }
 

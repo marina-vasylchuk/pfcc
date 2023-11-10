@@ -118,9 +118,12 @@ public class CommonSteps {
                                               .andExpect(jsonPath("$.error").doesNotExist())
                                               .andReturn().getResponse();
 
-        String refreshToken = mapper.readValue(rsp.getContentAsString(), JsonNode.class).at("/data/token").asText();
+        String refreshToken = mapper.readValue(rsp.getContentAsString(), JsonNode.class)
+                                    .at("/data/refreshToken")
+                                    .asText();
         Cookie accessTokenCookie = rsp.getCookie("access-token");
         assertThat(accessTokenCookie).isNotNull();
+        assertThat(refreshToken).isNotBlank();
 
         this.ctx.setAuthCookie(accessTokenCookie);
         this.ctx.setRefreshToken(refreshToken);
