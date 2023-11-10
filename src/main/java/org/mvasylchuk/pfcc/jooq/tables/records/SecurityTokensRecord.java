@@ -93,18 +93,10 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
     }
 
     /**
-     * Create a detached, initialised SecurityTokensRecord
+     * Create a detached SecurityTokensRecord
      */
-    public SecurityTokensRecord(Long id, String code, Long userId, String type, Byte isActive, LocalDateTime validUntil) {
+    public SecurityTokensRecord() {
         super(SecurityTokens.SECURITY_TOKENS);
-
-        setId(id);
-        setCode(code);
-        setUserId(userId);
-        setType(type);
-        setIsActive(isActive);
-        setValidUntil(validUntil);
-        resetChangedOnNotNull();
     }
 
     /**
@@ -127,16 +119,24 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
     // Record6 type implementation
     // -------------------------------------------------------------------------
 
-    /**
-     * Setter for <code>pfcc.security_tokens.valid_until</code>.
-     */
-    public void setValidUntil(LocalDateTime value) {
-        set(5, value);
-    }
-
     @Override
     public Row6<Long, String, Long, String, Byte, LocalDateTime> fieldsRow() {
         return (Row6) super.fieldsRow();
+    }
+
+    /**
+     * Create a detached, initialised SecurityTokensRecord
+     */
+    public SecurityTokensRecord(Long id, String code, Long userId, String type, Byte isActive, LocalDateTime validUntil) {
+        super(SecurityTokens.SECURITY_TOKENS);
+
+        setId(id);
+        setCode(code);
+        setUserId(userId);
+        setType(type);
+        setIsActive(isActive);
+        setValidUntil(validUntil);
+        resetChangedOnNotNull();
     }
 
     @Override
@@ -164,9 +164,11 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
         return SecurityTokens.SECURITY_TOKENS.IS_ACTIVE;
     }
 
-    @Override
-    public Row6<Long, String, Long, String, Byte, LocalDateTime> valuesRow() {
-        return (Row6) super.valuesRow();
+    /**
+     * Setter for <code>pfcc.security_tokens.valid_until</code>.
+     */
+    public void setValidUntil(LocalDateTime value) {
+        set(5, value);
     }
 
     @Override
@@ -195,8 +197,8 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
     }
 
     @Override
-    public Field<LocalDateTime> field6() {
-        return SecurityTokens.SECURITY_TOKENS.VALID_UNTIL;
+    public Row6<Long, String, Long, String, Byte, LocalDateTime> valuesRow() {
+        return (Row6) super.valuesRow();
     }
 
     @Override
@@ -225,8 +227,8 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
     }
 
     @Override
-    public LocalDateTime component6() {
-        return getValidUntil();
+    public Field<LocalDateTime> field6() {
+        return SecurityTokens.SECURITY_TOKENS.VALID_UNTIL;
     }
 
     @Override
@@ -260,25 +262,9 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
     }
 
     @Override
-    public LocalDateTime value6() {
-        return getValidUntil();
-    }
-
-    @Override
     public SecurityTokensRecord value6(LocalDateTime value) {
         setValidUntil(value);
         return this;
-    }
-
-    // -------------------------------------------------------------------------
-    // Constructors
-    // -------------------------------------------------------------------------
-
-    /**
-     * Create a detached SecurityTokensRecord
-     */
-    public SecurityTokensRecord() {
-        super(SecurityTokens.SECURITY_TOKENS);
     }
 
     @Override
@@ -290,5 +276,19 @@ public class SecurityTokensRecord extends UpdatableRecordImpl<SecurityTokensReco
         value5(value5);
         value6(value6);
         return this;
+    }
+
+    // -------------------------------------------------------------------------
+    // Constructors
+    // -------------------------------------------------------------------------
+
+    @Override
+    public LocalDateTime component6() {
+        return getValidUntil();
+    }
+
+    @Override
+    public LocalDateTime value6() {
+        return getValidUntil();
     }
 }
