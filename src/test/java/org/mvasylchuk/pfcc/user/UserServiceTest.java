@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mvasylchuk.pfcc.platform.configuration.model.PfccAppConfigurationProperties;
 import org.mvasylchuk.pfcc.platform.email.EmailService;
@@ -38,8 +39,19 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private SecurityTokenService securityTokenService;
-    @Mock
-    private PfccAppConfigurationProperties conf;
+    @Spy
+    private PfccAppConfigurationProperties conf = new PfccAppConfigurationProperties(
+            null,
+            new PfccAppConfigurationProperties.PfccJwtConfiguration(
+                    null,
+                    null,
+                    null,
+                    null,
+                    Duration.of(10, ChronoUnit.DAYS),
+                    Duration.of(30, ChronoUnit.DAYS)
+            ),
+            null, null, null
+    );
 
     @Test
     void register() {
@@ -55,12 +67,8 @@ class UserServiceTest {
         when(jwtService.generateToken(any())).thenReturn(accessToken);
         when(securityTokenService.generateSecurityToken(any(), eq(EMAIL_VERIFICATION)))
                .thenReturn(validationTokenCode);
-        when(securityTokenService.generateSecurityToken(any(), eq(REFRESH_TOKEN)))
+        when(securityTokenService.generateSecurityToken(any(), eq(REFRESH_TOKEN), any()))
                .thenReturn(refreshTokenCode);
-        PfccAppConfigurationProperties.PfccJwtConfiguration jwtConf = Mockito.mock(PfccAppConfigurationProperties.PfccJwtConfiguration.class);
-        when(jwtConf.authTokenExpiration).thenReturn(Duration.of(10, ChronoUnit.DAYS));
-        when(jwtConf.refreshTokenExpiration).thenReturn(Duration.of(30, ChronoUnit.DAYS));
-        when(conf.jwt).thenReturn(jwtConf);
 
         AuthTokensDto result = underTest.register(new RegisterRequestDto("email", "password", "name", Language.UA));
 
