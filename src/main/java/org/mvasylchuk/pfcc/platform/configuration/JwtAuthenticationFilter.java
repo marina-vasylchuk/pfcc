@@ -45,14 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             log.debug("Authorization cookie '{}'", authCookie);
 
-//            LocalDateTime expires = LocalDateTime.parse(authCookie.getAttribute("expires"),
-//                    DateTimeFormatter.RFC_1123_DATE_TIME);
-//            if (LocalDateTime.now().isAfter(expires)) {
-//                log.debug("Authentication cookie already expired: {}", expires);
-//                filterChain.doFilter(request, response);
-//                return;
-//            }
-
             String token = authCookie.getValue();
 
             JwtAuthentication authenticationReq = JwtAuthentication.unauthenticated(token);
